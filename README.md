@@ -167,12 +167,14 @@ kubectl apply -f ./
 쿠버네티스의 대부분의 서비스는 클러스터 내부에서만 통신이 이루어지지만 frontend처럼 외부로 노출시킬 필요가 있는 서비스가 있을 수 있다. 그래서 쿠버네티스는 이런 여러가지 상황에서 서비스를 사용하기 위해 4가지 서비스 타입(ServiceTypes)을 제공한다.
 1. ClusterIP: 서비스에 클러스터ip(내부ip)를 할당한다. 이 방식은 오직 클러스터 내에서만 서비스가 접근될 수 있다.
 2. NodePort:  클러스터ip(내부ip)로만의 접근 뿐만 아니라, NAT가 이용되는 클러스터 내에서 각각 선택된 노드들의 동일한 포트에 서비스를 노출시켜 준다. $NodeIP:$NodePort를 이용하여 클러스터 외부로부터 서비스가 접근할 수 있다. 즉 모든 노드의 30036포트로 서비스를 접근할 수 있다.
+
   ![nodeport](https://user-images.githubusercontent.com/29041283/58790912-3fe27700-862c-11e9-89e6-cf3ca299442e.PNG)  
   
 출처: https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
 
 
 3.  LoadBalancer: 클라우드 서비스 제공자의 로드밸런서를 사용하여 서비스에 고정된 공인IP를 할당해준다.
+
   ![loadbalancer](https://user-images.githubusercontent.com/29041283/58790917-4244d100-862c-11e9-931c-aeb7efac1b70.PNG)  
   
 출처: https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
@@ -235,6 +237,7 @@ kubectl get svc -n sock-shop
 * 다양한 오브젝트에 들어있는 데이터를 볼륨형태로 쉽게 컨테이너에 마운트 시킬 수 있다. (configmap, secret 등등)
 * 여러 개의 볼륨을 한 컨테이너에 쉽게 연결할 수 있다.
 #### 볼륨 사용방법
+
 ![volume1](https://user-images.githubusercontent.com/29041283/58790996-643e5380-862c-11e9-9a90-01b638fe060d.PNG)
 ![volume2](https://user-images.githubusercontent.com/29041283/58790998-66081700-862c-11e9-9324-779f44aa0249.PNG)  
 
@@ -276,6 +279,7 @@ cd $HOME/kubernetes-tutorial/manifests-pv
 kubectl apply -f sc-promtheus.yaml
 kubectl apply -f sc-grafana.yaml
 ```
+
 2. 원래 storageclass에서는 provisoner가 다른 cloud provider 회사로 되어 있으면 동적으로 볼륨이 할당되지만 local에서는 따로 persistentvolume를 만들어 주어야 한다. 그래서 local의 어느 경로에 얼마만큼의 용량을 할당할지, 그리고 이를 사용할 storageclass는 무엇인지를 명시해준다.
 
 ```yaml
@@ -353,11 +357,16 @@ kubectl apply -f pvc-grafana.yaml
 configmap은 여러 어플리케이션에서 필요한 설정파일을 쿠버네티스 상에서 관리하고 해당 어플리케이션에 적용할 수 있게 해주는 오브젝트이다. 
 #### 사용방법
 1. 어플리케이션에서 필요한 설정 내용을 configmap에서 data에 prometheus의 설정파일을 정의를 해준다.
+
 ![cfgmap0](https://user-images.githubusercontent.com/29041283/58791012-6acccb00-862c-11e9-95a1-4571f59c17c4.PNG)
+
 2. 디플로이먼트에서 volumes부분에서 마운트를 시켜주고 volumeMounts에서 해당 설정파일을 컨테이너 안 어느 path에 마운트 시킬지를 결정해준다.
+
 ![cfgmap1](https://user-images.githubusercontent.com/29041283/58791023-6ef8e880-862c-11e9-998b-98871492342f.PNG)
 ![cfgmap2](https://user-images.githubusercontent.com/29041283/58791030-715b4280-862c-11e9-89b1-d0cdd8bf2baf.PNG)
+
 3. 그리고 해당 이미지에 대한 arguments에 config파일이 컨테이너 내에 어디에 있는지를 명시해준다.
+
 ![configmap arg](https://user-images.githubusercontent.com/29041283/58791033-74eec980-862c-11e9-84bf-6ad88ae515ea.PNG)
 
 monitoring의 관한 configmap을 배포한다.
@@ -419,11 +428,15 @@ kubectl apply -f alertmanager-configmap.yaml -f alertmanager-dep.yaml -f alertma
 
 #### 쿠버네티스 인증: 
 사용자는 kubectl 명령어를 이용해서 쿠버네티스 상의 리소스에 접근할 수 있다. 또 쿠버네티스 상에 올라간 여러 서비스나 포드들도 쿠버네티스의 리소스에 접근할 필요가 있다. 여러 유저와 서비스가 존재하므로 이것들에 대한 접근권한을 지정할 필요가 있다. 이를 지정해고 요청이 들어오면 apiserver에서 이를 확인하여 접근을 가능하게 해준다.
+
 ![auth](https://user-images.githubusercontent.com/29041283/58791046-78825080-862c-11e9-87d8-9354c2cb0491.PNG)
+
 #### RBAC(Role-based access control)
 쿠버네티스는 일반적으로 RBAC을 사용해서 권한을 부여한다. RBAC이란 룰 기반으로 리소스에 대한 접근 권한을 제어하는 것을 말한다.   
 RBAC에서 리소스에 대한 권한을 부여하는 방식은 다음과 같다.
+
 ![rbac](https://user-images.githubusercontent.com/29041283/58791058-7b7d4100-862c-11e9-85b9-96aa751f39e8.PNG)
+
 크게 Role, RoleBinding, Subject가 있다고 생각하면 된다. 먼저 Role에서는 여러 자원(resources)과 그것들을 제어할 수 있는 행동들(verbs)을 규정해 놓은 Rules들이 정의되어 있고 Subject는 저 행동들을 사용할 대상이다. 그리고 마지막으로 정의했던 Role과 Subject를 연결시켜주는 것이 RoleBinding이다. 그래서 실질적으로 우리가 만들어야 할 설정파일은 Role, Subject, RoleBinding이다.
 
 ##### Role(ClusterRole)
@@ -557,6 +570,7 @@ kubectl apply -f ./
 kubectl get hpa -n sock-shop
 ```
 `kubectl get hpa -n sock-shop`을 하면 현재 pod들이 사용하는 평균 리소스 사용량과 replication을 확인할 수 있다.
+
   ![hpa-result](https://user-images.githubusercontent.com/29041283/58791067-80da8b80-862c-11e9-9d76-87b924aec7ab.PNG)
   
   ---
