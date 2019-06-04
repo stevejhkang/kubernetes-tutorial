@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: kube-system
+  name: kube-controller-manager-prometheus-discovery
+  labels:
+    component: kube-controller-manager
+  annotations:
+    prometheus.io/scrape: "true"
+spec:
+  selector:
+    component: kube-controller-manager
+    tier: control-plane
+  type: ClusterIP
+  ports:
+  - port: 10252
+    targetPort: 10252
+    protocol: TCP

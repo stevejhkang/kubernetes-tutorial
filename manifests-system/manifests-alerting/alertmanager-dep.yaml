@@ -1,0 +1,55 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+        name: alertmanager
+    spec:
+      tolerations: #make pods run on only master
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:v0.16.1
+        imagePullPolicy: "IfNotPresent"
+        args:
+          - --config.file=/alertmanager/config.yml
+          - --storage.path=/alertmanager
+          - --log.level=debug  
+        ports:
+        - name: alertmanager
+          containerPort: 9093
+        volumeMounts:
+        - name: config-volume
+#          mountPath: /alertmanager/
+          mountPath: /etc/alertmanager
+        env:
+        - name: GMAIL
+          valueFrom:
+            secretKeyRef:
+              name: email-auth
+              key: PASSWD
+        command: ['/bin/sh', '/etc/alertmanager/configure_secret.sh']
+      volumes:
+      - name: config-volume
+        #secret: 
+        #  secretName: alertmanager
+        configMap:
+          name: alertmanager
+      - name: gmail
+        secret:
+          secretName: email-auth
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+        node-role.kubernetes.io/master: ""  #make pods run  on only master
+

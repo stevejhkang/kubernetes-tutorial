@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: prometheus-deployment
+  namespace: monitoring
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      name: prometheus
+      labels:
+        app: prometheus
+    spec:
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/master
+      serviceAccount: prometheus
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.9.2
+        args:
+        - --storage.tsdb.retention.time=360h
+        - --storage.tsdb.retention.size=512MB
+        - --config.file=/etc/config/prometheus.yml
+        - --storage.tsdb.path=/prometheus/data
+        ports:
+        - name: web
+          containerPort: 9090
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+        - name: prometheus-storage
+          mountPath: /prometheus/data
+        - name: rules-volume
+          mountPath: /prometheus/data/alert_rules
+      volumes:
+      - name: config-volume
+        configMap:
+          name: prometheus-configmap
+      - name: rules-volume
+        configMap:
+          name: prometheus-alertrules
+      - name: prometheus-storage
+        persistentVolumeClaim:
+          claimName: prometheus-claim
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+        node-role.kubernetes.io/master: ""

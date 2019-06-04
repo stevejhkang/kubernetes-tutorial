@@ -1,0 +1,17 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: alertmanager
+  namespace: monitoring
+data:
+  config.yml: |-
+    global:
+      slack_api_url: SLACK_URL
+    route:
+      group_by: [Alertname]
+      receiver: slack-notifications
+    receivers:
+    - name: 'slack-notifications'
+      slack_configs:
+      - channel: '#monitor'
+
