@@ -5,9 +5,11 @@ metadata:
   namespace: kube-system
   labels:
     k8s-app: node-exporter
-    kubernetes.io/cluster-service: "true"
+    kubernetes.io/cluster-service: "false"
     addonmanager.kubernetes.io/mode: Reconcile
     version: v0.17.0
+  annotations:
+    k8s-app: node-exporter
 spec:
   selector:
     matchLabels:

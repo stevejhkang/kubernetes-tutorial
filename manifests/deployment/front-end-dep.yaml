@@ -5,7 +5,7 @@ metadata:
   name: front-end
   namespace: sock-shop
 spec:
-  replicas: 1
+  replicas: 3
   strategy:
     rollingUpdate:
       maxSurge: 0
@@ -21,8 +21,8 @@ spec:
         image: weaveworksdemos/front-end:0.3.12
         resources:
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 200m
+            memory: 150Mi
          #limits:
         ports:
         - containerPort: 8079

@@ -6,9 +6,10 @@ metadata:
   annotations:
     prometheus.io/scrape: "true"
   labels:
-    kubernetes.io/cluster-service: "true"
+    kubernetes.io/cluster-service: "false"
     addonmanager.kubernetes.io/mode: Reconcile
     kubernetes.io/name: "NodeExporter"
+    k8s-app: node-exporter
 spec:
   ports:
     - name: metrics

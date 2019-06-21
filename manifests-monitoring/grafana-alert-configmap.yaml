@@ -22,7 +22,7 @@ data:
     data = data
     
     # Temporary files in `data` directory older than given duration will be removed
-    temp_data_lifetime = 24h
+    temp_data_lifetime = 15m
     
     # Directory where grafana can store logs
     logs = data/log
@@ -39,7 +39,7 @@ data:
     protocol = http
     
     # The ip address to bind to, empty will bind to all interfaces
-    http_addr =
+    http_addr = 
     
     # The http port to use
     http_port = 3000
@@ -52,7 +52,8 @@ data:
     enforce_domain = false
     
     # The full public facing url
-    root_url = %(protocol)s://%(domain)s:%(http_port)s/
+    #root_url = %(protocol)s://%(domain)s:%(http_port)s/
+    root_url = http://133.186.247.133:31300/
     
     # Log web requests
     router_logging = false
@@ -508,7 +509,7 @@ data:
     
     # Alert notifications can include images, but rendering many images at the same time can overload the server
     # This limit will protect the server from render overloading and make sure notifications are sent out quickly
-    concurrent_render_limit = 5
+    concurrent_render_limit = 10
     
     #################################### Explore #############################
     [explore]
@@ -557,7 +558,7 @@ data:
     #################################### External Image Storage ##############
     [external_image_storage]
     # You can choose between (s3, webdav, gcs, azure_blob, local)
-    provider =
+    provider = 
     
     [external_image_storage.s3]
     bucket_url =
@@ -588,7 +589,7 @@ data:
     
     [rendering]
     # Options to configure external image rendering server like https://github.com/grafana/grafana-image-renderer
-    server_url =
+    server_url = 
     callback_url =
     
     [panels]

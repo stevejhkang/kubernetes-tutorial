@@ -7,7 +7,7 @@ metadata:
     name: catalogue
   namespace: sock-shop
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -21,8 +21,8 @@ spec:
         - -port=80
         resources:
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 80m
+            memory: 50Mi
           #limits:
         ports:
         - containerPort: 80

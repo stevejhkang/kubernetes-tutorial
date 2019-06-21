@@ -1,0 +1,11 @@
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: "disable-mtls-epmd"
+  namespace: sock-shop
+spec:
+  targets:
+  - name: rabbitmq
+    ports:
+    - number: 4369 
+  peers:

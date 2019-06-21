@@ -11,7 +11,7 @@ spec:
     name: orders
 
   minReplicas: 1
-  maxReplicas: 1
+  maxReplicas: 2
  
   metrics:
   - type: Resource
@@ -19,7 +19,7 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 75
+        averageUtilization: 50
 
   - type: Resource
     resource:

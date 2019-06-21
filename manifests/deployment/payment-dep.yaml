@@ -18,8 +18,8 @@ spec:
         image: weaveworksdemos/payment:0.4.3
         resources:
           requests:
-            cpu: 100m
-            memory: 100Mi
+            cpu: 30m
+            memory: 30Mi
         ports:
         - containerPort: 80
         securityContext:

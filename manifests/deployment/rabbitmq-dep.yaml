@@ -15,14 +15,23 @@ spec:
       annotations:
         prometheus.io/scrape: "false"
     spec:
+      initContainers:
+      - name: configmap-copy
+        image: busybox
+        command: ['/bin/sh', '-c', 'cp /etc/rabbitmq/files/* /etc/rabbitmq/']
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/rabbitmq/files
+        - name: config
+          mountPath: /etc/rabbitmq
       containers:
       - name: rabbitmq
-        image: rabbitmq:3.6.8-management
+        image: rabbitmq:3.7.8-management
         ports:
-        - containerPort: 15672
-          name: management
-        - containerPort: 5672
-          name: rabbitmq
+        - name: management
+          containerPort: 15672
+        - name: rabbitmq
+          containerPort: 5672
         - name: dist
           containerPort: 25672
         - name: epmd
@@ -36,7 +45,20 @@ spec:
               - SETGID
               - SETUID
               - DAC_OVERRIDE
-          readOnlyRootFilesystem: true
+          readOnlyRootFilesystem: false
+        env:
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: RABBITMQ_USE_LONGNAME
+            value: "true"
+          - name: RABBITMQ_NODENAME
+            value: "rabbit@$(MY_POD_IP)"
+          - name: K8S_SERVICE_NAME
+            value: "rabbitmq"
+          - name: RABBITMQ_ERLANG_COOKIE
+            value: "mycookie" 
       - name: rabbitmq-exporter
         image: kbudde/rabbitmq-exporter
         resources:
@@ -44,7 +66,18 @@ spec:
             cpu: 50m
             memory: 50Mi
         ports:
-        - containerPort: 9090
-          name: exporter
+        - name: exporter
+          containerPort: 9090
+      volumes:
+      - name: config
+        emptyDir: {}
+      - name: config-volume
+        configMap:
+          name: rabbitmq-config
+          items:
+          - key: rabbitmq.conf
+            path: rabbitmq.conf
+          - key: enabled_plugins
+            path: enabled_plugins
       nodeSelector:
         beta.kubernetes.io/os: linux
