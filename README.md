@@ -276,7 +276,7 @@ prometheus와 grafana의 storagle class를 apply한다.
 
 ```bash
 cd $HOME/kubernetes-tutorial/manifests-pv
-kubectl apply -f sc-promtheus.yaml
+kubectl apply -f sc-prometheus.yaml
 kubectl apply -f sc-grafana.yaml
 ```
 
@@ -314,7 +314,7 @@ DIRNAME="prometheus-vol"
 sudo mkdir -p /mnt/disk/$DIRNAME 
 sudo chcon -Rt svirt_sandbox_file_t /mnt/disk/$DIRNAME
 sudo chmod 777 /mnt/disk/$DIRNAME
-kubectl apply -f pv-promtheus.yaml
+kubectl apply -f pv-prometheus.yaml
 
 DIRNAME="grafana-vol"
 sudo mkdir -p /mnt/disk/$DIRNAME 
@@ -343,7 +343,7 @@ spec:
 pvc를 apply해준다.
 
 ```bash
-kubectl apply -f pvc-promtheus.yaml
+kubectl apply -f pvc-prometheus.yaml
 kubectl apply -f pvc-grafana.yaml
 ```
 
