@@ -373,7 +373,7 @@ monitoring의 관한 configmap을 배포한다.
 
 ```bash
 cd $HOME/kubernetes-tutorial/manifests-monitoring
-kubectl apply -f prometheus-alertrules.yaml -f prometheus-config4.yaml -f grafana-configmap.yaml -f grafana-alert-configmap.yaml
+kubectl apply -f prometheus-alertrules.yaml -f prometheus-config.yaml -f grafana-configmap.yaml -f grafana-alert-configmap.yaml
 ```
 
 
