@@ -9,4 +9,4 @@ spec:
   storageClassName: prometheus-local-storage
   resources:
     requests:
-      storage: 20Gi
+      storage: 2.5Gi

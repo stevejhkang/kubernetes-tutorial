@@ -9,4 +9,4 @@ spec:
   storageClassName: grafana-local-storage
   resources:
     requests:
-      storage: 5Gi
+      storage: 0.4Gi

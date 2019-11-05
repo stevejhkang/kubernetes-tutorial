@@ -5,7 +5,7 @@ metadata:
   namespace: monitoring
 spec:
   capacity:
-    storage: 5Gi
+    storage: 0.4Gi
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -19,4 +19,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - ip-10-43-0-40.ap-northeast-2.compute.internal 
