@@ -7,6 +7,9 @@ metadata:
     name: user-db
   namespace: sock-shop
 spec:
+  selector:
+    matchLabels:
+      name: user-db
   replicas: 1
   template:
     metadata:
