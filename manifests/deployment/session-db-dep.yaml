@@ -7,6 +7,9 @@ metadata:
     name: session-db
   namespace: sock-shop
 spec:
+  selector:
+    matchLabels:
+      name: session-db
   replicas: 1
   template:
     metadata:
