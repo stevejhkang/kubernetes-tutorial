@@ -7,6 +7,9 @@ metadata:
     name: catalogue
   namespace: sock-shop
 spec:
+  selector:
+    matchLabels:
+      name: catalogue
   replicas: 1
   template:
     metadata:
