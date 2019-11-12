@@ -7,6 +7,9 @@ metadata:
     name: rabbitmq
   namespace: sock-shop
 spec:
+  selector:
+    matchLabels:
+      name: rabbitmq
   replicas: 1
   template:
     metadata:
