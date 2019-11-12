@@ -7,6 +7,9 @@ metadata:
     name: shipping
   namespace: sock-shop
 spec:
+  selector:
+    matchLabels:
+      name: shipping
   replicas: 1
   template:
     metadata:
