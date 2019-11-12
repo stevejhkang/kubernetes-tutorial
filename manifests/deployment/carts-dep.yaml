@@ -7,6 +7,9 @@ metadata:
     name: carts
   namespace: sock-shop
 spec:
+  selector:
+    matchLabels:
+      name: carts-db
   replicas: 1
   template:
     metadata:
