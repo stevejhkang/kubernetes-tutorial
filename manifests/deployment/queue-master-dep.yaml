@@ -7,6 +7,9 @@ metadata:
     name: queue-master
   namespace: sock-shop
 spec:
+  selector:
+    matchLabels:
+      name: queue-master
   replicas: 1
   template:
     metadata:
