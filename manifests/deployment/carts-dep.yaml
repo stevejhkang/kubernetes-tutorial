@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      name: carts-db
+      name: carts
   replicas: 1
   template:
     metadata:
