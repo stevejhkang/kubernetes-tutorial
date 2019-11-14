@@ -45,13 +45,13 @@ spec:
             path: /health
             port: 80
           initialDelaySeconds: 300
-          periodSeconds: 3
+          periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /health
             port: 80
           initialDelaySeconds: 180
-          periodSeconds: 3
+          periodSeconds: 10
       volumes:
         - name: tmp-volume
           emptyDir:

@@ -7,6 +7,10 @@ metadata:
     app: grafana
     component: core
 spec:
+  selector:
+    matchLabels:
+      app: grafana
+      component: core
   replicas: 1
   template:
     metadata:

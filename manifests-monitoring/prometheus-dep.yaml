@@ -4,6 +4,9 @@ metadata:
   name: prometheus-deployment
   namespace: monitoring
 spec:
+  selector:
+    matchLabels:
+      app: prometheus
   replicas: 1
   strategy:
     rollingUpdate:
